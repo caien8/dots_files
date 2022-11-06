@@ -1,0 +1,10 @@
+sudo pacman -Sy code librewolf rust spotify-adblock gimp kitty htop brightnessctl flameshot virtualbox betterlockscreen networkmanager networkmanager-dmenu-git python-gobject network-manager-applet brave dmenu gotop xarchiver nitrogen
+
+
+sudo pacman -S libevdev python-libevdev i2c-tools git
+sudo modprobe i2c-dev
+sudo i2cdetect -l
+git clone https://github.com/mohamed-badaoui/asus-touchpad-numpad-driver
+cd asus-touchpad-numpad-driver
+chmod +x install.sh
+sudo ./install.sh
