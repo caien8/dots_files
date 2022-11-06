@@ -487,9 +487,9 @@ for i in groups:
 groups.append(
     ScratchPad("scratchpad", [
                    # define a drop down terminal.ScratchPad
-                   DropDown("term", terminal, opacity=0.8, height=0.5, width=0.6, x=0.2, y=0.2),
+                   DropDown("term", terminal, opacity=0.99, height=0.5, width=0.6, x=0.2, y=0.2),
                    DropDown("mixer", "pavucontrol", width=0.4, x=0.3, y=0.1),
-                   DropDown('khal', "kitty -t ikhal -e ikhal", x=0.6785, width=0.32, height=0.997, opacity=0.9),
+                   DropDown('khal', "kitty -e ikhal", x=0.6785, width=0.32, height=0.997, opacity=0.9),
                ]),
 )
 ## ScratchPad KeyBindings
@@ -588,9 +588,11 @@ def parse_func(text):
   return text
 
 widget_defaults = dict(
-        font='Cascadia Code',
-        fontsize=13,
-        padding=3
+        # font='Cascadia Code',
+        font="UbunutuMono Nerd Font Mono Bold",
+        fontsize=12,
+        padding=2,
+        background= theme["colorback"],
 )
 screens = [
     Screen(top=bar.Bar([
@@ -713,6 +715,7 @@ screens = [
         #    foreground = theme["color1"],
         #    background = theme["color1"],
         #),
+
         ###### NETWORK ######
         Sep(
             linewidth = 2,
@@ -734,7 +737,7 @@ screens = [
             prefix = 'M',
             foreground = theme["color2"],
             background = theme["colorback"],
-            padding = 3,
+            padding = 2,
             update_interval = 1,
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('networkmanager_dmenu -l 9 -nf red -sb red')},
         ),
@@ -758,11 +761,11 @@ screens = [
             background = theme["colorback"],
             foreground = theme["color3"],
             fmt = 'Cpu:{}',
-            update_interval = 2,
+            update_interval = 1,
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(terminal + ' -e gotop')},
             #format = '{freq_current}GHz {load_percent}%',
             format = '[{load_percent}]%',
-            padding = 5,
+            padding = 2,
         ),
         ###### TEMPERATURE ######
         Sep(
@@ -784,10 +787,10 @@ screens = [
             foreground = theme["color4"],
             background = theme["colorback"],
             update_interval = 0,
-            threshold = 90,
+            threshold = 70,
             fmt = 'Temp:{}',
             format='[{temp:.0f}{unit}]',
-            padding = 5,
+            padding = 2,
             mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(terminal + ' -e htop')},
         ),
         ##### MEMORY ######
@@ -813,24 +816,32 @@ screens = [
             fmt = 'Mem:{}',
             #format = '{MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
             format = '[{MemUsed:.0f}]{mm}',
-            padding = 5,
+            padding = 2,
             update_interval = 1,
         ),
         ##### BRIGHTNESS ######
-        #Sep(
-        #    linewidth = 2,
-        #    padding = 4,
-        #    foreground = theme["color8"],
-        #    background = theme["colorback"]
-        #),
-        #TextBox(
-        #    text = '',
-        #    font = "Font Awesome 6 Free Solid",
-        #    fontsize = 15,
-        #    padding = 2,
-        #    foreground = theme["color7"],
-        #    background = theme["colorback"]
-        #),
+        Sep(
+            linewidth = 2,
+            padding = 4,
+            foreground = theme["color8"],
+            background = theme["colorback"]
+        ),
+        TextBox(
+            text = '',
+            font = "Font Awesome 6 Free Solid",
+            fontsize = 15,
+            padding = 2,
+            foreground = theme["color4"],
+            background = theme["colorback"]
+        ),        
+        widget.Backlight(
+            foreground = theme["color4"],
+            fmt = "Brt:[{}]",
+            brightness_file = "/sys/class/backlight/amdgpu_bl0/actual_brightness",
+            max_brightness_file = "/sys/class/backlight/amdgpu_bl0/max_brightness",
+            fontsize = 12,
+            padding = 2
+        ),
         ###### VOLUME ########
         Sep(
             linewidth = 2,
@@ -852,8 +863,8 @@ screens = [
             fmt = 'Vol:[{}]',
             device = 'default',
             channel = 'Master',
-            limit_max_volume = False,
-            padding = 5,
+            limit_max_volume = True,
+            padding = 2,
             update_interval = 0,
             mute_command = 'pactl set-sink-mute @DEFAULT_SINK@ toggle',
             volume_up_command = 'pactl set-sink-volume @DEFAULT_SINK@ +5%',
@@ -923,7 +934,7 @@ screens = [
             foreground = theme["color10"],
             background = theme["colorback"],
             format = "%a%d,%b[%I:%M]%P",
-            padding = 5,
+            padding = 2,
         ),
         ##### SYSTRAY ######
         Sep(
